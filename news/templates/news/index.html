@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <h1>Moja Strona </h1>
-    {{ zmienna }}
+    {% for entry in news %}
+    <h3>{{ entry.title }}</h3>
+    {{ entry.text|safe }}<br />
+    {{ entry.posted_date|date:"Y.m.d H:i" }}
+{% endfor  %}
 </head>
 <body>
 
