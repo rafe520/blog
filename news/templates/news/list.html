@@ -5,54 +5,53 @@
     <title>Title</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 
-    <h1>Moja Strona </h1>
-    {% for contact in contacts %}
-    <h3>{{ contact.title|upper }}</h3>
-    {{ contact.text|safe }}<br />
-    {{ contact.posted_date|date:"Y.m.d H:i"}}
-{% endfor  %}
+  {% for contact in posts %}
+    <br />{{ contact.title }}<br />
+    <br />{{ contact.text }}<br />
+  {% endfor %}
+
+
 
 
 <div class="pagination">
-    <span class="step-links">
-        {% if contacts.has_previous %}
-        <a href="?page=1">&laquo; Pierwsza</a>
-        <a href="?page={{ contacts.previous_page_number }}">Poprzednia</a>
-        {% endif %}
 
-        <span class="current">
-            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
-        </span>
+  {% if posts.has_previous %}
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="?page=1">Pierwszy</a></li>
+    </ul>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">Poprzedni</a></li>
+    </ul>
+  {% endif %}
 
-        {% if contacts.has_next %}
-           <a href="?page={{ contacts.next_page_number }}">Następna</a>
-           <a href="?page={{ contacts.paginator.num_pages }}">Ostatnia &raquo;</a>
-        {% endif %}
-    </span>
+
+  {% for num in posts.paginator.page_range %}
+    {% if posts.number == num %}
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">{{ num }}</a></li>
+    </ul>
+    {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+    </ul>
+    {% endif %}
+  {% endfor %}
+
+
+
+  {% if posts.has_next %}
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Następny</a></li>
+    </ul>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="?page={{ posts.paginator.num_pages }}">Ostatni</a></li>
+    </ul>
+  {% endif %}
+
 </div>
-
-
-  <nav aria-label="Page navigation example">
-  <ul class="pagination">
-
-     {% if contacts.has_previous %}
-       <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-       <li class="page-item"><a class="page-link" href="?page={{ contacts.previous_page_number }}">Poprzedni</a></li>
-     {% endif %}
-
-
-
-      {% if contacts.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ contacts.next_page_number }}">Następny</a></li>
-        <li class="page-item"><a class="page-link" href="?page={{ contacts.paginator.num_pages }}">3</a></li>
-      {% endif %}
-
-  </ul>
-</nav>
-
-
 
 </head>
 <body>

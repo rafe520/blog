@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.utils import timezone
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
@@ -10,9 +9,9 @@ from .models import News
 
 
 def index(request):
-    contact_list = News.objects.all()
-    paginator = Paginator(contact_list, 1)  # Show 25 contacts per page
-
+    posts= News.objects.all()
+    paginator = Paginator(posts, 1)
     page = request.GET.get('page')
-    contacts = paginator.get_page(page)
-    return render(request, 'news/list.html', {'contacts': contacts})
+
+    posts = paginator.get_page(page)
+    return render(request, 'news/list.html', {'posts': posts})
